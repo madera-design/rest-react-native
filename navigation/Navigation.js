@@ -2,6 +2,8 @@ import React from 'react'
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
+import { Icon } from 'react-native-elements'
+
 
 import RestStack from './RestStack'
 import FavoriteStack from './FavoriteStack'
@@ -10,12 +12,55 @@ import SearchStack from './SearchStack'
 import AccountStack from './AccountStack'
 
 
+
 const Tab = createBottomTabNavigator()
 
 export default function Navigation() {
+    const scrreOptions = (route, color) => {
+        let iconName
+        switch (route.name) {
+            case "restaurant":
+                iconName = "compass-outline"
+                break;
+            case "favorite":
+                iconName = "heart-outline"
+                break;
+            case "top":
+                iconName = "star-outline"
+                break;
+            case "search":
+                iconName = "magnify"
+                break;
+            case "account":
+                iconName = "home-outline"
+                break;
+        }
+
+        return (
+
+            <Icon
+                type = "material-community"
+                name = {iconName}
+                size = {22}
+                color = {color}
+            />
+        )
+    }
+
+
+
     return (
         <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator
+                initialRouteName = "restaurant"
+                tabBarOptions = {{
+                    inactiveTintColor: "#cc91c4",
+                    activeTintColor: "#9d3a93"
+                }}
+                screenOptions = {({ route }) => ({
+                    tabBarIcon: ({ color }) => scrreOptions(route, color)
+                })}
+            >
                 <Tab.Screen 
                     name = "restaurant"
                     component = {RestStack}
@@ -37,7 +82,7 @@ export default function Navigation() {
                     options = {{ title: "Buscar"}}
                 />
                 <Tab.Screen 
-                    name = "acccount"
+                    name = "account"
                     component = {AccountStack}
                     options = {{ title: "Cuenta"}}
                 />
